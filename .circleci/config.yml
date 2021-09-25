@@ -5,12 +5,8 @@ version: 2.1
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
   build:
-    # Specify the execution environment.
-    # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
     docker:
       - image: macandkaj/ci_test
-    # Add steps to the job
-    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
     steps:
       - checkout
       - run:
@@ -20,12 +16,8 @@ jobs:
           name: build-app
           command: make app;
   test:
-    # Specify the execution environment.
-    # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
     docker:
       - image: macandkaj/ci_test
-    # Add steps to the job
-    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
     steps:
       - checkout
       - run:
@@ -33,12 +25,13 @@ jobs:
           command: cmake app;
       - run:
           name: build-test
-          command: make Test; ./test/Test
-      # - run:
+          command: make Test; 
+      - run:
+          name: run-test
+          command: "./test/Test --gtest_output=xml:test-result/result.xml"
+      - store_test_results:
+          path: test-result
 
-
-# Invoke jobs via workflows
-# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
   CI_Test-workflow:
     jobs:
