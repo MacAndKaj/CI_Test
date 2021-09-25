@@ -4,7 +4,7 @@ version: 2.1
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
-  prepare:
+  build:
     # Specify the execution environment.
     # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
     docker:
@@ -15,8 +15,10 @@ jobs:
       - checkout
       - run:
           command: cmake app;
-
-  build:
+      - run:
+          name: build-app
+          command: make app;
+  test:
     # Specify the execution environment.
     # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
     docker:
@@ -24,9 +26,13 @@ jobs:
     # Add steps to the job
     # See: https://circleci.com/docs/2.0/configuration-reference/#steps
     steps:
+      - checkout
       - run:
-          name: build-app
-          command: make app;
+          command: cmake app;
+      - run:
+          name: build-test
+          command: make Test;
+      # - run:
 
 
 # Invoke jobs via workflows
@@ -34,5 +40,5 @@ jobs:
 workflows:
   CI_Test-workflow:
     jobs:
-      - prepare
       - build
+      - test
