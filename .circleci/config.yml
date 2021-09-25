@@ -33,7 +33,7 @@ jobs:
           command: cmake app;
       - run:
           name: build-test
-          command: make Test;
+          command: make Test; ./test/Test
       # - run:
 
 
