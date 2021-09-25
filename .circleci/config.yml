@@ -14,9 +14,10 @@ jobs:
     steps:
       - checkout
       - run:
-          name: "build"
+          name: prepare
           working_directory: $CIRCLE_WORKING_DIRECTORY
-          command: pwd; ls
+          command: cd CI_Test; cmake app; make app;
+
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
