@@ -12,7 +12,7 @@ namespace math
 
     double ComplexNumber::mod() const
     {
-        return std::pow(_re, 2.) + std::pow(_im, 2.);
+        return std::sqrt(std::pow(_re, 2.) + std::pow(_im, 2.));
     }
 
     inline double mod(const ComplexNumber &obj)
